@@ -28,47 +28,50 @@ Velociraptorr,2.62,bipedal
 **Solution**
 
 ```python
-# Facebook | Phone Screen | CSV Dinosaurs & Split Array Equal Sum
-# Facebook | Phone Screen | CSV Dinosaurs & Split Array Equal Sum
 import math
-import heapq
-def CSVDinosaurs(path1, path2):
-    g = 9.8
-    stride_map = {}
-    with open(path2, 'r') as f:
-        line = f.readline()
-        line = f.readline()
-        while line:
-            tmp = line.split(",")
-            name, stride, stance = tmp
-            if stance.strip() == "bipedal":
-                stride_map[name] = float(stride)
-            line = f.readline()
 
-    outmap = {}
-    with open(path1, 'r') as f:
-        line = f.readline()
-        line = f.readline()
-        while line:
-            tmp = line.split(",")
-            name, leg, diet = tmp
-            leg = float(leg)
-            if name in stride_map:
-                stride = stride_map[name]
-                outmap[name] = (stride/leg-1)*math.sqrt(leg*g)
-                print(outmap[name])
-            line = f.readline()
-
-    res = []
-    for name in outmap:
-        res.append((-outmap[name], name))
-    heapq.heapify(res)
-    while res:
-        speed, name = heapq.heappop(res)
-        print(name + ", " + str(-speed))
 
 path1 = "dataset1.csv"
 path2 = "dataset2.csv"
-CSVDinosaurs(path1, path2)
+
+g = 9.8
+post_dia = {}
+
+# Read bipedal dinosaurs and their stride lengths
+with open(path2, "r") as reader2:
+    reader2.readline()  # skip header
+    line = reader2.readline()
+    while line:
+        parts = line.strip().split(",")
+        if len(parts) >= 3:
+            name = parts[0]
+            stride_length = parts[1]
+            stance = parts[2].strip().lower()
+            if stance == "bipedal":
+                post_dia[name] = float(stride_length)
+        line = reader2.readline()
+
+speed_res = {}
+
+# Read leg lengths and compute speed
+with open(path1, "r") as reader1:
+    reader1.readline()  # skip header
+    line = reader1.readline()
+    while line:
+        parts = line.strip().split(",")
+        if len(parts) >= 2:
+            name = parts[0]
+            leg_length = float(parts[1])
+            if name in post_dia:
+                stride_len = post_dia[name]
+                speed = ((stride_len / leg_length) - 1) * math.sqrt(leg_length * g)
+                speed_res[name] = speed
+        line = reader1.readline()
+
+# Sort and print dinosaur names by speed in descending order
+sorted_speeds = sorted(speed_res.items(), key=lambda x: x[1], reverse=True)
+
+for name, _ in sorted_speeds:
+    print(name)
 ```
 
