@@ -72,5 +72,3 @@ path2 = "dataset2.csv"
 CSVDinosaurs(path1, path2)
 ```
 
-```
-
