@@ -28,6 +28,11 @@ def check_process(host):
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(host, username=username, timeout=5)
 
+        #stdin: input stream (if you want to send data to the process)
+        #stdout: standard output of the command
+        #stderr: error output of the command
+        ##Reads the entire output (bytes), decodes it to a string (usually UTF-8), and strips leading/trailing whitespace.
+
         stdin, stdout, stderr = ssh.exec_command(f'pgrep -fl {process_name}')
         output = stdout.read().decode().strip()
 
