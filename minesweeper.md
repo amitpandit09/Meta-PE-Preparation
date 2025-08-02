@@ -3,52 +3,86 @@ Write a code tp create a randomized minesweeper board on every iteration.
 **Algorithm**
 
 ```
-1. Initialize a 2D grid of given rows and columns filled with zeros.
-2. Randomly place mines (e.g., represented by -1) in the grid without overlap.
-3. For every non-mine cell, calculate the number of adjacent mines and update the count.
-4. Print or return the final board.
+Create a board of size n x m.
+
+Place k mines randomly.
+
+Calculate the number of adjacent mines for each non-mine cell.
+
+Print the final board.
 ```
 
 **Code**
 
 ```
 
-import random
+import java.util.*;
 
-def create_minesweeper_board(rows, cols, mines_count):
-    # Step 1: Create empty board
-    board = [[0 for _ in range(cols)] for _ in range(rows)]
+public class RandomMinesweeper {
 
-    # Step 2: Place mines randomly
-    all_cells = [(r, c) for r in range(rows) for c in range(cols)]
-    mines = random.sample(all_cells, mines_count)
-    for r, c in mines:
-        board[r][c] = -1
+    static final int MINE = -1;
 
-    # Step 3: Calculate numbers for non-mine cells
-    directions = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1,-1), (1,0), (1,1)]
+    public static void main(String[] args) {
+        int rows = 5;
+        int cols = 5;
+        int mines = 5;
 
-    for r in range(rows):
-        for c in range(cols):
-            if board[r][c] == -1:
-                continue
-            count = 0
-            for dr, dc in directions:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] == -1:
-                    count += 1
-            board[r][c] = count
+        int[][] board = generateBoard(rows, cols, mines);
+        printBoard(board);
+    }
 
-    return board
+    static int[][] generateBoard(int rows, int cols, int mineCount) {
+        int[][] board = new int[rows][cols];
 
-def print_board(board):
-    for row in board:
-        print(" ".join(str(cell) if cell != -1 else "*" for cell in row))
+        // Step 1: Place mines randomly
+        Random rand = new Random();
+        int placed = 0;
 
-# Example usage:
-rows, cols, mines_count = 8, 8, 10
-board = create_minesweeper_board(rows, cols, mines_count)
-print_board(board)
+        while (placed < mineCount) {
+            int r = rand.nextInt(rows);
+            int c = rand.nextInt(cols);
+            if (board[r][c] != MINE) {
+                board[r][c] = MINE;
+                placed++;
+            }
+        }
+
+        // Step 2: Fill numbers
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (board[r][c] == MINE) continue;
+
+                int count = 0;
+                for (int dr = -1; dr <= 1; dr++) {
+                    for (int dc = -1; dc <= 1; dc++) {
+                        int nr = r + dr;
+                        int nc = c + dc;
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc] == MINE) {
+                            count++;
+                        }
+                    }
+                }
+                board[r][c] = count;
+            }
+        }
+
+        return board;
+    }
+
+    static void printBoard(int[][] board) {
+        for (int[] row : board) {
+            for (int cell : row) {
+                if (cell == MINE) {
+                    System.out.print("* ");
+                } else {
+                    System.out.print(cell + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
 
 ```
 
@@ -56,12 +90,10 @@ print_board(board)
 **Output**
 
 ```
-0 1 1 1 0 0 1 *
-0 1 * 2 2 2 3 2
-0 1 2 * * 3 * 1
-0 0 1 2 2 3 2 1
-0 0 0 0 1 * 1 0
-0 0 0 0 1 1 1 0
-0 0 0 0 0 0 0 0
-* 1 1 1 0 0 0 0
+0 1 * 2 1 
+0 1 2 * 1 
+0 0 2 2 2 
+0 0 1 * 2 
+0 0 1 1 1 
+
 ```
