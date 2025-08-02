@@ -52,7 +52,7 @@ def send_email(body):
     msg['To'] = 'recipient@example.com'
 
     server = smtplib.SMTP('smtp.example.com', 587)
-    server.starttls()
+    server.starttls() ## Upgrade to TLS
     server.login('sender@example.com', 'your_password')
     server.send_message(msg)
     server.quit()
