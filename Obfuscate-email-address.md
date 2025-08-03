@@ -16,25 +16,34 @@ Obfuscate the local part of email addresses (everything before @) in all .html f
 import os
 import re
 
-# Step 1: Email regex pattern (captures local and domain parts)
-email_pattern = re.compile(r'([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})')
+# Define the folder where HTML files reside
+folder_path = "/home"
 
-# Step 2: Loop through .html files in the folder
-folder_path = "your_folder_path_here"  # Replace with actual path
+# Regex pattern to match emails (captures username and domain separately)
+email_pattern = re.compile(r'([a-zA-Z0-9._%+-])([a-zA-Z0-9._%+-]*)(@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})')
 
+# Iterate over all files in the given directory
 for filename in os.listdir(folder_path):
     if filename.endswith(".html"):
         full_path = os.path.join(folder_path, filename)
-        
-        # Step 3: Read file content
-        with open(full_path, 'r') as f:
-            content = f.read()
 
-        # Step 4: Replace emails with obfuscated version
-        updated_content = email_pattern.sub(lambda m: '*' * len(m.group(1)) + '@' + m.group(2), content)
+        # Open the file and read contents
+        with open(full_path, "r") as f1:
+            content = f1.read()
 
-        # Step 5: Write back to the file
-        with open(full_path, 'w') as f:
-            f.write(updated_content)
+        # Replace each email's local part with a masked version
+        def mask_email(match):
+            first = match.group(1)
+            mid = match.group(2)
+            domain = match.group(3)
+            masked = first + ('*' * len(mid)) + domain
+            return masked
+
+        # Apply the substitution using regex
+        updated_content = email_pattern.sub(mask_email, content)
+
+        # Write back the updated content to the same file
+        with open(full_path, "w") as f2:
+            f2.write(updated_content)
 
 ```
