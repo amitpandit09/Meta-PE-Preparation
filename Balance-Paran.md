@@ -70,27 +70,30 @@ Output: "(a)b(c)d(e)f(g)"
 
 ## Code
 
-```python
-def BalanceParentheses(s):
-    stack = []
-    # -1 means left parentheses
-    # 1 means right parentheses
-    for i, c in enumerate(s):
-        if c == '(':
-            stack.append([i, -1])
-        elif c == ')':
-            if stack and stack[-1][1] == -1:
-                stack.pop()
-            else:
-                stack.append([i, 1])
-        else:
-            continue
-    # print(stack)
-    invalid_list = [stack[i][0] for i in range(len(stack))]
-    valid_list = [s[i] for i in range(len(s)) if i not in invalid_list]
-    return "".join(valid_list)
+```java
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        StringBuilder sb = new StringBuilder(s);
+        Stack<Integer> stack = new Stack<>();
+        for(int i=0;i<sb.length();i++) {
+            if(sb.charAt(i) == '('){
+                stack.add(i);
+            }
 
+            if(sb.charAt(i) == ')') {
+                if(!stack.empty()){
+                    stack.pop();
+                }
+                else{
+                    sb.setCharAt(i, '*');
+                }
+            }
+        }
 
-s = "(a)b(c)d(e)f)(g)"
-print(BalanceParentheses(s))
+        while(!stack.empty()){
+            sb.setCharAt(stack.pop(), '*');
+        }
+        return sb.toString().replaceAll("\\*", "");
+    }
+}
 ```
