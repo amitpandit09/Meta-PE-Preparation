@@ -30,48 +30,51 @@ Velociraptorr,2.62,bipedal
 ```python
 import math
 
-
-path1 = "dataset1.csv"
-path2 = "dataset2.csv"
-
 g = 9.8
-post_dia = {}
 
-# Read bipedal dinosaurs and their stride lengths
-with open(path2, "r") as reader2:
-    reader2.readline()  # skip header
-    line = reader2.readline()
-    while line:
+bipedal_dia = {}
+
+# Read dataset2: NAME,STRIDE_LENGTH,STANCE
+with open(file2, "r") as f2:
+    next(f2)  # Skip header
+    for line in f2:
         parts = line.strip().split(",")
-        if len(parts) >= 3:
+        if len(parts) == 3:  # <-- Fix: should check length of list
             name = parts[0]
-            stride_length = parts[1]
-            stance = parts[2].strip().lower()
-            if stance == "bipedal":
-                post_dia[name] = float(stride_length)
-        line = reader2.readline()
+            stride_len = parts[1]
+            stance = parts[2]
+            if stance.strip().lower() == 'bipedal':  # case-insensitive match
+                try:
+                    bipedal_dia[name] = float(stride_len)
+                except ValueError:
+                    continue  # ignore bad data
 
-speed_res = {}
+res = []
 
-# Read leg lengths and compute speed
-with open(path1, "r") as reader1:
-    reader1.readline()  # skip header
-    line = reader1.readline()
-    while line:
+# Read dataset1: NAME,LEG_LENGTH,DIET
+with open(file1, "r") as f1:
+    next(f1)  # Skip header
+    for line in f1:
         parts = line.strip().split(",")
-        if len(parts) >= 2:
+        if len(parts) == 3:
             name = parts[0]
-            leg_length = float(parts[1])
-            if name in post_dia:
-                stride_len = post_dia[name]
-                speed = ((stride_len / leg_length) - 1) * math.sqrt(leg_length * g)
-                speed_res[name] = speed
-        line = reader1.readline()
+            try:
+                leg_len = float(parts[1])
+                if leg_len > 0 and name in bipedal_dia:
+                    stride_len = bipedal_dia[name]
+                    ratio = stride_len / leg_len
+                    if ratio > 1:
+                        speed = (ratio - 1) * math.sqrt(leg_len * g)
+                        res.append((name, speed))
+            except ValueError:
+                continue  # ignore bad data
 
-# Sort and print dinosaur names by speed in descending order
-sorted_speeds = sorted(speed_res.items(), key=lambda x: x[1], reverse=True)
+# Sort dinosaurs by speed (descending)
+res.sort(key=lambda x: x[1], reverse=True)
 
-for name, _ in sorted_speeds:
+# Print only names
+for name, _ in res:
     print(name)
+
 ```
 
