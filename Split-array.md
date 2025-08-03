@@ -12,42 +12,59 @@ Given an array of integers greater than zero, find if it is possible to split it
 **Code**
 
 ```
-public class SplitEqualSubarrays {
+import java.io.*;
+import java.util.*;
 
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 3}; // Example array
-        int total = 0;
+/*
+ * To execute Java, please define "static void main" on a class
+ * named Solution.
+ *
+ * If you need more classes, simply define them inline.
+ */
 
-        // Step 1: Compute total sum
-        for (int num : arr) {
-            total += num;
-        }
+class Solution {
+  static final int MINE = -1;
 
-        int leftSum = 0;
+  public static void main(String[] args) {
+      int[] arr = {1,2,3,3};
 
-        // Step 2: Iterate and check if a split point exists
-        for (int i = 0; i < arr.length - 1; i++) {
-            leftSum += arr[i];
-            int rightSum = total - leftSum;
+      int totalSum = 0;
 
-            if (leftSum == rightSum) {
-                // Step 3: Print subarrays
-                System.out.print("Subarray 1: ");
-                for (int j = 0; j <= i; j++) {
-                    System.out.print(arr[j] + " ");
-                }
+      for(int num : arr){
+        totalSum +=num;
+      }  
 
-                System.out.print("\nSubarray 2: ");
-                for (int j = i + 1; j < arr.length; j++) {
-                    System.out.print(arr[j] + " ");
-                }
+      if(totalSum%2 != 0){
+        return ;
+      }
 
-                return;
+      int halfSum = totalSum/2;
+      int prefixSum = 0;
+      for(int i=0;i<arr.length-1;i++){
+        prefixSum += arr[i];
+
+        if(prefixSum == halfSum){
+            System.out.println("\nSub array 1");
+            for(int j=0;j<=i;j++){
+                System.out.println(arr[j]);
             }
+
+            System.out.println("\nSub array 2");
+            for(int j=i+1;j<=arr.length-1;j++){
+                System.out.println(arr[j]);
+            }
+            return;
+
         }
 
-        System.out.println("No equal split possible.");
-    }
+      }
+
+   System.out.println("\nCannot split");
+
+  }
+
+  
+
 }
 
 ```
