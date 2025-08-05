@@ -1,5 +1,29 @@
 
+**Question**
+
 Write a function to sort a list of integers that looks like this [5,2,0,3,0,1,6,0] -> [1,2,3,5,6,0,0,0] in the most efficient way
+
+**Possible Solutions**
+
+1. Separate, Sort, and Rebuild
+2. In-place Sorting with Index Swaps
+3. In-place Partial Sort (Advanced)
+4. Stable Two-Pass Approach (Preserve relative non-zero order) 
+
+**Solution**
+
+Solution for : 1. Separate, Sort, and Rebuild
+
+Python
+
+```
+def sort_with_zeros_at_end(nums):
+    non_zeros = sorted([x for x in nums if x != 0])
+    return non_zeros + [0] * nums.count(0)
+
+```
+
+Java
 
 ```
 import java.util.*;
@@ -37,3 +61,32 @@ public class SortNonZeroThenZero {
 }
 
 ```
+
+
+**Complexity**
+
+Time Complexity:
+
+O(n) for separating elements
+O(m log m) for sorting non-zero elements
+O(n) for final list building
+➤ Overall: O(n + m log m), where m = non-zero elements.
+
+Space Complexity: O(n) for new list.
+
+-------
+
+Solution for : 4. Stable Two-Pass Approach (Preserve relative non-zero order)
+
+```
+def stable_move_zeros(nums):
+    result = [x for x in nums if x != 0]
+    result.extend([0] * (len(nums) - len(result)))
+    return result
+
+```
+Complexity
+Time: O(n)
+Space: O(n)
+
+
