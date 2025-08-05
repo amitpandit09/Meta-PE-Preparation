@@ -3,7 +3,11 @@
  Given a string `str` consisting of parentheses `(`, `)` and alphanumeric characters. Remove minimum number of paranthesis to make the string valid and return **any** valid result. In a valid string for every opening/closing parentheses there is a matching closing/opening one.
 
 **Clarifications**
-  
+1. Do we need to preserve the order of characters?
+2. What characters are allowed in the string besides parentheses?
+3. What’s the maximum length of the input string?
+4. What should be returned if the string is already valid?
+5. Are empty strings considered valid results?
 
 **Solution approaches**
  1. Stack + Set (Optimal)- O(n)
