@@ -1,5 +1,11 @@
 Write some code that lists the top 10 most frequent words in a file
 
+**Possible ways to solve**
+1. Using collections.Counter + most_common() (🔥 Optimal and Simple)
+2. Streaming Line-by-Line with Counter (Memory-Efficient)
+3. Using a Dictionary + Heap (Manual Counter + Min-Heap). Time: O(n + w log k), where k = 10
+4. External Sort / Disk-Based Frequency Counting. Time: O(n log n) (due to sort/merge)
+
 **Algorithm**
 
 ```
