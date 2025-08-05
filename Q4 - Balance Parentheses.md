@@ -1,10 +1,17 @@
-# # Facebook | Balance Parentheses
+**Balance Parentheses**
 
- Given a string `str` consisting of parentheses `(`, `)` and alphanumeric characters. Remove minimum number of paranthesis to make the string valid and return **any** valid result. In a valid string for every opening/closing parentheses there is a matching closing/opening one. 
+ Given a string `str` consisting of parentheses `(`, `)` and alphanumeric characters. Remove minimum number of paranthesis to make the string valid and return **any** valid result. In a valid string for every opening/closing parentheses there is a matching closing/opening one.
+
+**Clarifications**
+  
+
+**Solution approaches**
+ 1. Stack + Set (Optimal)- O(n)
+ 2. Two-Pass Scan (Without Using a Stack)- O(n)
+ 3. Breadth-First Search (BFS) – Return All Valid Results- Worst-case O(2^n)
+
 
 **Example 1:**
-
-
 
 ```
 Input: "ab(a(c)fg)9)"
