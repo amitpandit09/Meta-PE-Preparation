@@ -76,17 +76,22 @@ Space Complexity: O(n) for new list.
 
 -------
 
-Solution for : 4. Stable Two-Pass Approach (Preserve relative non-zero order)
-
+Solution for : 5. Counting Sort Variant (if values are small integers)
 ```
-def stable_move_zeros(nums):
-    result = [x for x in nums if x != 0]
-    result.extend([0] * (len(nums) - len(result)))
+def counting_sort_with_zeros(nums):
+    from collections import Counter
+    counter = Counter(x for x in nums if x != 0)
+    result = []
+    for i in range(1, max(counter.keys()) + 1):
+        result.extend([i] * counter[i])
+    result.extend([0] * nums.count(0))
     return result
+
 
 ```
 Complexity
-Time: O(n)
-Space: O(n)
+Time: O(n + k), where k = range of values
+
+Space: O(k)
 
 
