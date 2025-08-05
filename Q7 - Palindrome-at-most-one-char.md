@@ -1,5 +1,9 @@
 Given a string s, return true if the s can be a palindrome after deleting at most one character from it.
 
+**Ways to solve**
+1. Two-Pointer Greedy Approach (Optimal)
+2. Brute Force Deletion Check O(n²)
+
 **Algorithm**
 
 ```
