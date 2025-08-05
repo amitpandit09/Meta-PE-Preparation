@@ -3,55 +3,37 @@ Write some code that lists the top 10 most frequent words in a file
 **Algorithm**
 
 ```
-1. Read the file line by line.
-2. Split each line into words, convert to lowercase, and clean punctuation.
-3. Use a HashMap to count word frequencies.
+1. Converts all text to lowercase to avoid treating "The" and "the" as different.
+2. Uses re.findall() to extract words (ignores punctuation).
+3. Uses collections.Counter to count how many times each word appears.
+4. Retrieves the top 10 with .most_common(10)
 ```
 
 **Code**
 
 ```
-import java.io.*;
-import java.util.*;
-import java.util.Map.Entry;
+from collections import Counter
+import re
 
-public class TopWords {
+def top_10_words(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        text = f.read().lower()  # Convert to lowercase for uniformity
 
-    public static void main(String[] args) {
-        String filePath = "your_file.txt";  // Replace with your file name
+    # Use regex to extract words (alphanumeric only)
+    words = re.findall(r'\b\w+\b', text)
 
-        Map<String, Integer> wordCount = new HashMap<>();
+    # Count word frequencies
+    word_counts = Counter(words)
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
+    # Get the 10 most common words
+    top_10 = word_counts.most_common(10)
 
-            // Step 1: Read each line
-            while ((line = reader.readLine()) != null) {
-                // Step 2: Split and clean words
-                String[] words = line.toLowerCase().split("\\s+");
+    # Print results
+    print("Top 10 most frequent words:")
+    for word, freq in top_10:
+        print(f"{word}: {freq}")
 
-                for (String word : words) {
-                    word = word.replaceAll("[^a-z0-9]", ""); // remove punctuation
-                    if (!word.isEmpty()) {
-                        wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Step 3: Sort by frequency and print top 10
-        List<Entry<String, Integer>> sorted = new ArrayList<>(wordCount.entrySet());
-        sorted.sort((a, b) -> b.getValue() - a.getValue());
-
-        System.out.println("Top 10 most frequent words:");
-        for (int i = 0; i < Math.min(10, sorted.size()); i++) {
-            Entry<String, Integer> entry = sorted.get(i);
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }
-    }
-}
+# Example usage:
+top_10_words("/path/to/your/file.txt")
 
 ```
