@@ -1,6 +1,11 @@
 Obfuscate the local part of email addresses (everything before @) in all .html files under ## a folder
 ##hello.john@example.com to ********@example.com
 
+**Possible ways to solve**
+1. Regex-Based File Scan (Standard Way)
+2. Using python's in built email.utils.parseaddr() for Safety
+3. Line-by-Line Streaming (Memory Efficient)
+
 **Algorithm**
 
 ```
