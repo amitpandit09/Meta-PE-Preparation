@@ -1,5 +1,13 @@
 Given an array of integers greater than zero, find if it is possible to split it in two subarrays (without reordering the elements), such that the sum of the two subarrays is the same. Print the two subarrays.
 
+**Clarification questions**
+
+1. Should we return the first valid split or all possible ones?
+2. What should we do if the array has only one or two elements? Are edge cases important?
+3. Are the elements always positive integers? Can there be zeros or negatives?
+4. Should the two subarrays be contiguous?
+5. What should the function return if no split is possible — False, empty list, or an error?
+
 
 **Possible Solutions**
 1. Prefix Sum Scan (Optimal - O(n))
