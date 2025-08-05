@@ -1,5 +1,11 @@
 Given an array of integers greater than zero, find if it is possible to split it in two subarrays (without reordering the elements), such that the sum of the two subarrays is the same. Print the two subarrays.
 
+
+**Possible Solutions**
+1. Prefix Sum Scan (Optimal - O(n))
+2. Prefix Sum Array + Binary Search (O(n))
+3. Brute Force Scan (O(n²))
+
 **Algorithm**
 
 ```
