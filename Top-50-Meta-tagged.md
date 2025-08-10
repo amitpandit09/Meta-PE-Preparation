@@ -10,5 +10,6 @@
 3. [**Valid Word Abbreviation (408)**](https://leetcode.com/problems/valid-word-abbreviation/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days) : A string can be abbreviated by replacing any number of non-adjacent, non-empty substrings with their lengths. The lengths should not have leading zeros
    1. Two-Pointer Parsing = TC = O(n + m), where n = word.length() and m = abbr.length(), Space: O(1)
    2. Backtracking with State = TC = O(2^n)
-4. 
+4. Binary Tree Vertical Order Traversal
+   1. BFS - O(n) – each node is visited once
    
