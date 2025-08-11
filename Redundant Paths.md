@@ -83,25 +83,32 @@ Idea: put all paths in a set. A path is redundant if **any** of its proper prefi
 
 ```python
 def non_redundant_paths_set(paths):
-    s = set(paths)
+    s = set(paths)    # O(1) membership checks for any path
     res = []
-    seen = set()  # to dedupe roots in output
+    seen = set()      # avoid duplicates in output
+
     for p in paths:
         redundant = False
-        idx = 1
+        idx = 1       # start after the leading "/" so prefixes start at "/something"
+
+        # Check if *any* proper prefix of p (ending at a "/") exists in the set
         while True:
-            idx = p.find('/', idx)
-            if idx == -1: break
-            if p[:idx] in s:  # some parent exists
+            idx = p.find('/', idx)   # find next slash after current idx
+            if idx == -1:
+                break                # no more slashes → no parent found
+            if p[:idx] in s:         # a parent path exists → p is redundant
                 redundant = True
                 break
-            idx += 1
-        if !redundant and p not in seen:
+            idx += 1                 # move past this slash and keep searching
+
+        if not redundant and p not in seen:
             res.append(p)
             seen.add(p)
+
     return res
 
 print(non_redundant_paths_set(["/a/b/c","/a/b","/d/e","/d"]))  # ['/a/b', '/d']
+
 ```
 
 **Complexity:** For each path, you check its `/`-split prefixes; summed over all paths this is **O(L)** expected time, **O(n)** space for the set.
