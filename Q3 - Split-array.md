@@ -9,10 +9,57 @@ Given an array of integers greater than zero, find if it is possible to split it
 5. What should the function return if no split is possible — False, empty list, or an error?
 
 
-**Possible Solutions**
-1. Prefix Sum Scan (Optimal - O(n))
-2. Prefix Sum Array + Binary Search (O(n))
-3. Brute Force Scan (O(n²))
+**Approaches**
+
+One-pass prefix scan (best)
+
+Idea: Get total. Walk left→right keeping prefix. If prefix == total - prefix, cut there.
+
+Time: O(n)
+
+Space: O(1)
+
+Notes: Works because all numbers are > 0; returns the first valid split.
+
+Prefix array + (single) binary search
+
+Idea: Build pref[i]. If total is even, binary search for total/2 in pref.
+
+Time: O(n) build + O(log n) search → O(n)
+
+Space: O(n)
+
+Notes: Clean, but uses extra memory.
+
+Prefix array + (per-index) binary search
+
+Idea: For more general checks, binary-search a target for each i.
+
+Time: O(n log n)
+
+Space: O(n)
+
+Notes: Overkill for this exact problem.
+
+Brute force
+
+Idea: Try every cut; recompute left/right sums.
+
+Time: O(n²)
+
+Space: O(1)
+
+Notes: Simple, but too slow.
+
+Two-pointer greedy from ends (optional)
+
+Idea: Grow left/right sums toward middle, always advance the smaller side.
+
+Time: O(n)
+
+Space: O(1)
+
+Caveat: Works with positives, but prefix-scan is simpler and less error-prone.
 
 **Algorithm**
 
