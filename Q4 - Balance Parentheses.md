@@ -10,10 +10,9 @@
 5. Are empty strings considered valid results?
 
 **Solution approaches**
- 1. Stack + Set (Optimal)- O(n)
- 2. Two-Pass Scan (Without Using a Stack)- O(n)
+ 1. Stack - O(n)
+ 2. Two-Pass Scan (Without Using a Stack)- Best Optimal Solution O(n)
  3. Breadth-First Search (BFS) – Return All Valid Results- Worst-case O(2^n)
-
 
 **Example 1:**
 
@@ -22,11 +21,7 @@ Input: "ab(a(c)fg)9)"
 Output: "ab(a(c)fg)9" or "ab(a(c)fg9)" or "ab(a(cfg)9)"
 ```
 
-
-
 **Example 2:**
-
-
 
 ```
 Input: ")a(b)c()("
@@ -83,28 +78,38 @@ Output: "(a)b(c)d(e)f(g)"
 
 ```java
 class Solution {
+
     public String minRemoveToMakeValid(String s) {
-        StringBuilder sb = new StringBuilder(s);
-        Stack<Integer> stack = new Stack<>();
-        for(int i=0;i<sb.length();i++) {
-            if(sb.charAt(i) == '('){
-                stack.add(i);
-            }
 
-            if(sb.charAt(i) == ')') {
-                if(!stack.empty()){
-                    stack.pop();
-                }
-                else{
-                    sb.setCharAt(i, '*');
-                }
+        // Pass 1: Remove all invalid ")"
+        StringBuilder sb = new StringBuilder();
+        int openSeen = 0;
+        int balance = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(') {
+                openSeen++;
+                balance++;
+            } if (c == ')') {
+                if (balance == 0) continue;
+                balance--;
             }
+            sb.append(c);
         }
 
-        while(!stack.empty()){
-            sb.setCharAt(stack.pop(), '*');
+        // Pass 2: Remove the rightmost "("
+        StringBuilder result = new StringBuilder();
+        int openToKeep = openSeen - balance;
+        for (int i = 0; i < sb.length(); i++) {
+            char c = sb.charAt(i);
+            if (c == '(') {
+                openToKeep--;
+                if (openToKeep < 0) continue;
+            }
+            result.append(c);
         }
-        return sb.toString().replaceAll("\\*", "");
+
+        return result.toString();
     }
 }
 ```
