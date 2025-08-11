@@ -12,4 +12,11 @@
    2. Backtracking with State = TC = O(2^n)
 4. Binary Tree Vertical Order Traversal
    1. BFS - O(n) – each node is visited once
+  
+Revise
+
+1. [1762. Buildings With an Ocean View](https://leetcode.com/problems/buildings-with-an-ocean-view/description/?envType=company&envId=facebook&favoriteSlug=facebook-thirty-days)
+2. [468. Validate IP Address](https://leetcode.com/problems/validate-ip-address/description/)
+3. [468. Validate IP Address](https://leetcode.com/problems/validate-ip-address/description/)
+4. 
    
