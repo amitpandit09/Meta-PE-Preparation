@@ -13,24 +13,77 @@ Read innate file and parse the strings to count how many times an email address 
 **Code**
 
 ```
-import re
-from collections import defaultdict
-
-email_pattern = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
+import random
 
 
-def read_file_count_email(file_path):
-    email_counts = defaultdict(int)
+def solution_1(file):
+    fortunes = []
+    with open(file, "r") as file:
+        content = file.read()
+        for part in content.split("%"):
+            if part.strip():
+                fortunes.append(part)
+    print(random.choice(fortunes))
+
+
+def solution_2(file):
+    fortunes = []
+    block = []
+    with open(file, "r") as file:
+        for line in file:
+            if line.strip() == "%":
+                if block:
+                    fortunes.append("".join(block).strip())
+                    block = []
+            else:
+                block.append(line)
+        if block:
+            fortunes.append(block)
+    print(random.choice(fortunes))
+
+
+def build_offsets(file_path):
+    offsets = []
     with open(file_path, "r") as f:
-        print(f"f{f}")
-        for line in f:
-            emails = email_pattern.findall(line)
-            for email in emails:
-                email_counts[email] += 1
-    print(email_counts)
-    return email_counts
+        start = f.tell()
+        print(f"start {start}")
+        in_fortune = False
 
-read_file_count_email("emails.text")
+        while True:
+            pos = f.tell()
+            line = f.readline()
+            if not line:
+                break
+
+            if line.strip() == "%":
+                if in_fortune:
+                    end = pos
+                    if end > start:
+                        offsets.append((start, end))
+                    in_fortune = False
+                start = f.tell()
+            else:
+                if not in_fortune:
+                    in_fortune = True
+        if in_fortune and end > start:
+            offsets.append((start, end))
+    print(offsets)
+    return offsets
+
+
+def solution_2_offsets(file_path):
+    offsets = build_offsets(file_path)
+    if not offsets:
+        return "No fortunes found"
+    start, end = random.choice(offsets)
+    with open(file_path, "r") as f:
+        f.seek(start)
+        data = f.read(end - start)
+    print(data)
+
+
+solution_2_offsets("fortunes.txt")
+
 
 ```
 
