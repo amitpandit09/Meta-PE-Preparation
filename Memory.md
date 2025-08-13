@@ -192,4 +192,16 @@ journalctl -k | grep -i "killed process"
 5. **Look for OOM events** → `dmesg`, `journalctl`
 6. **Apply short-term fix**
 7. **Plan long-term remediation**
+8. 
+
+Fragmentation fix
+
+echo 1 > /proc/sys/vm/compact_memory This forces the kernel to move pages around to free up large contiguous blocks.
+Drop caches (if page cache is a big part of fragmentation):
+sync; echo 3 > /proc/sys/vm/drop_caches
+
+long term Enable Transparent Huge Pages (THP) — Kernel will try to keep large pages available:
+echo always > /sys/kernel/mm/transparent_hugepage/enabled
+
+
 
