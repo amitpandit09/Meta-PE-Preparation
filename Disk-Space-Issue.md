@@ -45,4 +45,20 @@
  9. Force run `logrotate -f /etc/logrotate.conf`
  10. Inspect cron job `cat /etc/cron.daily/logrotate`
 
+Another angle,
+
+1. List open files `sudo lsof | grep deleted`
+   ```
+   nginx    1234   www-data   4w   REG  8,1  104857600  1234567 /var/log/nginx/access.log (deleted)
+   java     5678   user      45u   REG  8,1  2147483648  2345678 /tmp/tmpfile (deleted)
+   ```
+2. Narrow it down : Sort by size column (7th in lsof output) to see the largest.
+   ```
+   sudo lsof / | grep deleted | sort -k7 -n
+   ```
+3. Restart the process holding the file: `sudo systemctl restart nginx`
+4. Kill the process (last resort if restart not possible): `sudo kill -9 <PID>`
+5. Truncate the file via /proc without restarting: `sudo truncate -s 0 /proc/<PID>/fd/<FD>`
+
+
  
