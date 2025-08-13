@@ -22,7 +22,7 @@ import os
 import re
 
 # Define the folder where HTML files reside
-folder_path = "/home"
+folder_path = "/Users/mipndi/workplace/Testing"
 
 # Regex pattern to match emails (captures username and domain separately)
 email_pattern = re.compile(r'([a-zA-Z0-9._%+-])([a-zA-Z0-9._%+-]*)(@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})')
@@ -50,6 +50,7 @@ for filename in os.listdir(folder_path):
         # Write back the updated content to the same file
         with open(full_path, "w") as f2:
             f2.write(updated_content)
+
 
 ```
 
