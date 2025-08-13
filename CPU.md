@@ -88,13 +88,13 @@ MiB Swap:   2048 total,     50 used,   1998 free.   2500 avail Mem
          12:12:01 1000 12345 102400.0   1024.0      0.0  mysqld
          12:12:01 1000 23456      0.0 204800.0      0.0  backup
          ```
-
-
-
-         
    - st → stolen time (VMs competing for CPU)
    - ps -eo pid,ppid,cmd,%cpu --sort=-%cpu | head
  - Memory:
    - used, free, and buff/cache → Linux uses cache aggressively; look at avail Mem to judge real availability.
  - Swap:
    - High used and active swap-in/out → possible memory pressure.
+3. High context switiching ? `vmstat 1`
+ - High cs (context switches) → possibly too many threads/processes or lock contention.
+ - pidstat -w 1
+ - Watch for CPU throttling / thermal limits `dmesg | grep -i thrott`
