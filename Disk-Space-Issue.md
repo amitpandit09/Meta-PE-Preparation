@@ -1,6 +1,4 @@
-Command cheatsheet
-
-**1. Disk related issue**
+**Disk related issue**
  
  1. df -h /var (Confirm)
     ```
@@ -39,5 +37,12 @@ Command cheatsheet
     1. *Delete* : `rm /var/cache/some-bigfile`
     2. *Move them to another filesystem* : `mv /var/cache/bigfile /mnt/backupdisk/`
     3. *Truncate logs if it’s log files:* : `: > /var/log/huge.log`
+    4. *Compress*: `gzip bigfile`
+ 6. Check last rotation time for log file which had highest size. /var/lib/logrotate/status
+ 6. Check the log rotation config in `cat /etc/logrotate.conf`
+ 7. Check app/service-specific configs: `ls -l /etc/logrotate.d/`. Look for the config for the service generating the huge logs.
+ 8. Dry run `logrotate -d /etc/logrotate.conf`
+ 9. Force run `logrotate -f /etc/logrotate.conf`
+ 10. Inspect cron job `cat /etc/cron.daily/logrotate`
 
  
