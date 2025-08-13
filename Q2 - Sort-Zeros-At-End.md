@@ -94,4 +94,38 @@ Time: O(n + k), where k = range of values
 
 Space: O(k)
 
+Solution for 6 : In place
+```
+import java.util.*;
+
+public class SortNonZeroThenZeroInPlace {
+    public static void sortInPlace(List<Integer> nums) {
+        int n = nums.size();
+
+        // Step 1: Move non-zero elements to the front (stable order not required)
+        int insertPos = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums.get(i) != 0) {
+                nums.set(insertPos++, nums.get(i));
+            }
+        }
+
+        // Step 2: Sort only the non-zero part
+        Collections.sort(nums.subList(0, insertPos));
+
+        // Step 3: Fill the rest with zeros
+        while (insertPos < n) {
+            nums.set(insertPos++, 0);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<Integer> nums = new ArrayList<>(Arrays.asList(5, 2, 0, 3, 0, 1, 6, 0));
+        sortInPlace(nums);
+        System.out.println(nums); // Output: [1, 2, 3, 5, 6, 0, 0, 0]
+    }
+}
+
+```
+
 
