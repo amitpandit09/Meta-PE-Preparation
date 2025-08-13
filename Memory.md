@@ -59,6 +59,10 @@ PID   PPID USER  %MEM %CPU CMD
 2345  1010 db     15.0  1.2 postgres: writer process
 ```
 
+ps -eo pid,ppid,state,comm,%cpu,wchan | awk '$3=="D"'
+
+
+
 ---
 
 ### **Per-process memory breakdown**
