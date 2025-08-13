@@ -40,3 +40,4 @@ class Solution {
     }
 }
 ```
+TC: O(abbr) | SC: O(1)
