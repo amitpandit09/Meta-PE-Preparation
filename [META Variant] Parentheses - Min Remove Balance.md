@@ -20,53 +20,43 @@ import java.util.*;
 public class Solution {
     public String minRemoveToMakeValid(String s) {
         int n = s.length();
-        // positions to delete
         boolean[] remove = new boolean[n];
 
-        // stack holds pairs: (char, index)
-        Deque<int[]> st = new ArrayDeque<>();
+        // mapping closing → opening
+        Map<Character, Character> mapping = new HashMap<>();
+        mapping.put(')', '(');
+        mapping.put(']', '[');
+        mapping.put('}', '{');
+
+        Deque<int[]> stack = new ArrayDeque<>();
 
         for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
 
-            if (isOpen(c)) {
-                st.push(new int[]{c, i});
-            } else if (isClose(c)) {
-                if (!st.isEmpty() && match((char) st.peek()[0], c)) {
-                    st.pop(); // good pair
+            if (mapping.containsValue(c)) { // it's an opening bracket
+                stack.push(new int[]{c, i});
+            } else if (mapping.containsKey(c)) { // it's a closing bracket
+                if (!stack.isEmpty() && stack.peek()[0] == mapping.get(c)) {
+                    stack.pop();  // matched
                 } else {
-                    remove[i] = true; // mismatched/extra closing
+                    remove[i] = true; // unmatched closing
                 }
             }
-            // letters/digits are ignored by logic (always kept)
+            // non-bracket chars always pass through
         }
 
-        // any leftover opens are unmatched -> remove them
-        while (!st.isEmpty()) {
-            remove[st.pop()[1]] = true;
+        // leftover opens are unmatched
+        while (!stack.isEmpty()) {
+            remove[stack.pop()[1]] = true;
         }
 
-        // build answer skipping marked positions
-        StringBuilder sb = new StringBuilder(n);
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             if (!remove[i]) sb.append(s.charAt(i));
         }
         return sb.toString();
     }
-
-    private boolean isOpen(char c) {
-        return c == '(' || c == '{' || c == '[';
-    }
-
-    private boolean isClose(char c) {
-        return c == ')' || c == '}' || c == ']';
-    }
-
-    private boolean match(char open, char close) {
-        return (open == '(' && close == ')') ||
-               (open == '{' && close == '}') ||
-               (open == '[' && close == ']');
-    }
 }
+
 
 ```
